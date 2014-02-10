@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Thomas Diggelmann, ai-one inc.
+ * Copyright (c) 2014 Thomas Diggelmann and Kurt Manninen, ai-one inc.
  * All rights reserved.
  */
 
