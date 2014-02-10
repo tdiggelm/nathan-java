@@ -43,8 +43,8 @@ public class TestNathan {
 	}
 	
 	public static void main(String[] args) {
-        String hostName = "192.168.2.3";
-        int portNumber = 3000;
+        String hostName = "localhost";
+        int portNumber = 3002;
 
         try {
             sock = new Socket(hostName, portNumber);
@@ -52,7 +52,7 @@ public class TestNathan {
             in = new NathanInputStream(sock.getInputStream());
             
             // run it n-times to test parser/sync
-            int trials = 10;
+            int trials = 1;
             
             // run the tests
             while(trials-- > 0) {
@@ -83,6 +83,27 @@ public class TestNathan {
                 // test echo => returns utf-8 string
                 out.println("ECHO 'ウィキペディア日本語版'");
                 System.out.println(recv_obj());	
+                
+                
+                out.println("CADD '123456789' 'the' 'basic' 'elements' 'of' 'ai-one BrainDocs'");
+                System.out.println(recv_obj());
+                out.println("CADD '123456789' 'ai-one Braindocs'");
+                System.out.println(recv_obj());
+                out.println("CADD '123456789' 'is' '박경랑' '지금' '서울에' '산다' 'form' 'of' 'unstructured' 'text'");
+                System.out.println(recv_obj());
+                out.println("CADD '123456789' 'in' '박경랑' 'our' 'technology' 'works' 'best' 'with' 'semantically-rich' " +
+                		"'content' 'written' 'in' 'your' 'business' 'vernacular'");
+                System.out.println(recv_obj());
+                out.println("CADD '123456789' 'our' '박경랑' '감기에' '걸렸지만' '학교에' '간다' 'chinese' 'klingon' 'etc'");
+                System.out.println(recv_obj());
+                out.println("CADD '123456789' 'we' '박경랑으로' 'support' 'the' 'import' 'of' 'documents' 'from' 'Microsoft'" +
+                		"'Word' 'Adobe' 'pdf' 'and' 'plain' 'text' 'files' 'we' 'are'" +
+                		"'working' 'on' 'developing' 'connectors' 'for' 'various' 'databases' 'email' 'repositories'" +
+                		"'and' 'e-discovery' 'platforms'");
+                System.out.println(recv_obj());
+                
+                out.println("KEYW '123456789'");
+                System.out.println(recv_obj());
             }
             
         } catch(Exception ex) {
