@@ -16,10 +16,17 @@ public class TestNathan {
 		switch(cb) {
 		case '@': {
 			int len = Integer.parseInt(line.substring(1));
-			byte [] data = new byte[len];
-			in.read(data, 0, len);
+			byte[] read = new byte[len];
+			int offset = 0;
+			while (offset < len) {
+				int size = in.read(read, offset, (len - offset));
+				if (size == -1)
+				    throw new IOException("Server connection is already closed.");
+					offset += size;
+			}
+			// read 2 more bytes for the command delimiter
 			in.readByte(); in.readByte();
-			return new String(data);
+			return new String(read);
 		}
 		case '*': {
 			int len = Integer.parseInt(line.substring(1));
@@ -43,8 +50,8 @@ public class TestNathan {
 	}
 	
 	public static void main(String[] args) {
-        String hostName = "localhost";
-        int portNumber = 3002;
+        String hostName = "192.168.2.3";
+        int portNumber = 3000;
 
         try {
             sock = new Socket(hostName, portNumber);
@@ -52,7 +59,7 @@ public class TestNathan {
             in = new NathanInputStream(sock.getInputStream());
             
             // run it n-times to test parser/sync
-            int trials = 1;
+            int trials = 100;
             
             // run the tests
             while(trials-- > 0) {
@@ -84,7 +91,6 @@ public class TestNathan {
                 out.println("ECHO 'ウィキペディア日本語版'");
                 System.out.println(recv_obj());	
                 
-                
                 out.println("CADD '123456789' 'the' 'basic' 'elements' 'of' 'ai-one BrainDocs'");
                 System.out.println(recv_obj());
                 out.println("CADD '123456789' 'ai-one Braindocs'");
@@ -105,6 +111,8 @@ public class TestNathan {
                 out.println("KEYW '123456789'");
                 System.out.println(recv_obj());
             }
+            
+            System.out.println("done");
             
         } catch(Exception ex) {
         	System.out.println(ex.getMessage());
